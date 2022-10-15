@@ -1,10 +1,35 @@
+import * as Location from "expo-location";
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text, ScrollView, Dimensions } from "react-native";
 
-const { width: SCREEN_WIDTH, SCREEN_HEIGHT } = Dimensions.get("window");
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 export default function App() {
+  const [location, setLocation] = useState();
+  const [ok, setOk] = useState(true);
+
+  const ask = async () => {
+    const { granted } = await Location.requestForegroundPermissionsAsync();
+
+    if (!granted) setOk(false);
+
+    const {
+      coords: { latitude, longitude },
+    } = await Location.getCurrentPositionAsync({ accuracy: 5 });
+
+    const location = await Location.reverseGeocodeAsync({
+      latitude,
+      longitude,
+    });
+
+    console.log(location);
+  };
+
+  useEffect(() => {
+    ask();
+  }, []);
+
   return (
     <View style={styles.container}>
       <StatusBar style="light"></StatusBar>
