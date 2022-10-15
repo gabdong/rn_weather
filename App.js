@@ -5,11 +5,14 @@ import { View, StyleSheet, Text, ScrollView, Dimensions } from "react-native";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
+const API_KEY = "b4901e2112de7d9c43c1ce7e7198260e"; //! 실제 프로젝트에선 서버에 위치
+
 export default function App() {
-  const [location, setLocation] = useState();
+  const [city, setCity] = useState("Loading...");
+  const [days, setDays] = useState([]);
   const [ok, setOk] = useState(true);
 
-  const ask = async () => {
+  const getWeather = async () => {
     const { granted } = await Location.requestForegroundPermissionsAsync();
 
     if (!granted) setOk(false);
@@ -18,23 +21,33 @@ export default function App() {
       coords: { latitude, longitude },
     } = await Location.getCurrentPositionAsync({ accuracy: 5 });
 
-    const location = await Location.reverseGeocodeAsync({
-      latitude,
-      longitude,
-    });
+    const location = await Location.reverseGeocodeAsync(
+      {
+        latitude,
+        longitude,
+      },
+      { useGoogleMaps: false }
+    );
 
-    console.log(location);
+    setCity(location[0].city);
+
+    const reponse = await fetch(
+      `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`
+    );
+    const json = await reponse.json();
+
+    console.log(json);
   };
 
   useEffect(() => {
-    ask();
+    getWeather();
   }, []);
 
   return (
     <View style={styles.container}>
       <StatusBar style="light"></StatusBar>
       <View style={styles.city}>
-        <Text style={styles.cityName}>Seoul</Text>
+        <Text style={styles.cityName}>{city}</Text>
       </View>
       <ScrollView
         contentContainerStyle={styles.weather}
