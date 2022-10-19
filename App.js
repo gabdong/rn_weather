@@ -6,6 +6,7 @@ import { View, StyleSheet, Text, ScrollView, Dimensions } from "react-native";
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 const API_KEY = "b4901e2112de7d9c43c1ce7e7198260e"; //! 실제 프로젝트에선 서버에 위치
+// const API_KEY = "886705b4c1182eb1c69f28eb8c520e20"; //! 실제 프로젝트에선 서버에 위치
 
 export default function App() {
   const [city, setCity] = useState("Loading...");
@@ -32,7 +33,7 @@ export default function App() {
     setCity(location[0].city);
 
     const reponse = await fetch(
-      `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`
+      `http://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`
     );
     const json = await reponse.json();
 
