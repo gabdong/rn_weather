@@ -5,10 +5,7 @@ import { View, StyleSheet, Text, ScrollView, Dimensions } from "react-native";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-//! 실제 프로젝트에선 서버에 위치
-// const API_KEY = "b4901e2112de7d9c43c1ce7e7198260e"; 
-// const API_KEY = "2c5b2cb560a8aca923a99caac8e920be";
-// const API_KEY = "c4df86adda4a8c9682507993770fa28f"; //! NOT MY KEY
+// const API_KEY = "b4901e2112de7d9c43c1ce7e7198260e"; //! 실제 프로젝트에선 서버에 위치
 const API_KEY = "784ab24ff2ed5d94d4288abed9e25d13"; //! NOT MY KEY
 
 export default function App() {
